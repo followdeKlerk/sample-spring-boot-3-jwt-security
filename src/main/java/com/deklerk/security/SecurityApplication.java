@@ -2,7 +2,6 @@ package com.deklerk.security;
 
 import com.deklerk.security.auth.AuthenticationService;
 import com.deklerk.security.auth.RegisterRequest;
-import com.deklerk.security.user.Role;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import static com.deklerk.security.user.Role.ADMIN;
 import static com.deklerk.security.user.Role.MANAGER;
+import static com.deklerk.security.user.Role.USER;
 
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
@@ -42,6 +42,16 @@ public class SecurityApplication {
 					.role(MANAGER)
 					.build();
 			System.out.println("Manager token: " + service.register(manager).getAccessToken());
+
+			var user = RegisterRequest.builder()
+					.firstname("User")
+					.lastname("User")
+					.email("user@mail.com")
+					.password("password")
+					.role(USER)
+					.build();
+			System.out.println("User token: " + service.register(user).getAccessToken());
+
 
 		};
 	}
